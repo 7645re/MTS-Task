@@ -1,9 +1,7 @@
 ﻿using System.Globalization;
 
 namespace Task2;
-// 2. Операция «Ы».
-// Что выводится на экран? Измените класс Number так, чтобы на экран выводился результат сложения для
-// любых значений someValue1 и someValue2.
+
 class OperationY
 {
     static readonly IFormatProvider _ifp = CultureInfo.InvariantCulture;
