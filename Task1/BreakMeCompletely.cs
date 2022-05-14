@@ -1,7 +1,5 @@
 ﻿namespace Task1;
 
-// 1. Ломай меня полностью.
-// Реализуйте метод FailProcess так, чтобы процесс завершался. Предложите побольше различных решений.
 class BreakMeCompletely
 {
     static void Main(string[] args)
@@ -25,6 +23,6 @@ class BreakMeCompletely
         
         // Environment.FailFast("");
         
-        // FailProcess();
+        FailProcess();
     }
 }
