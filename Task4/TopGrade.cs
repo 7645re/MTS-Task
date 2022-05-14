@@ -5,7 +5,8 @@ namespace Task4;
 
 static class TopGrade
 {   
-    private static IEnumerable<int> Sort(IEnumerable<int> inputStream, int maxValue)
+    // Сортировка подсчетом
+    private static IEnumerable<int> Sort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
     {
         var stream = inputStream as int[] ?? inputStream.ToArray();
         int[] countArray = new int[maxValue + 1];
@@ -45,11 +46,11 @@ static class TopGrade
 
     private static void Main(string[] args)
     {
-        int[] longArray = new[]
+        int[] array = new[]
         {
             16, 10, 12, 11, 15, 20, 19, 18, 17, 110, 106,
             105, 125
         };
-        Sort(longArray, 5,125);
+        Sort(array, 2000);
     }
 }
