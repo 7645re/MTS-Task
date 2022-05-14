@@ -17,7 +17,7 @@ static class TopGrade
     }
     
     // Это одна из неудачных попыток реализовать метод
-    private static IEnumerable<int> Sort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
+    private static IEnumerable<int> UnWorkSort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
     {
         var stream = inputStream as int[] ?? inputStream.ToArray();
         int selectN = stream[0];
