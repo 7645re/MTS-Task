@@ -12,7 +12,7 @@ static class TopGrade
         int[] countArray = new int[maxValue + 1];
         for (int i = 0; i < stream.Length; i++) countArray[stream[i]]++;
         int sortedArrayIndex = 0;
-        for (int i = 0; i < countArray.Length-1; i++) for (int j = 0; j < countArray[i]; j++) stream[sortedArrayIndex++] = i;
+        for (int i = 0; i < countArray.Length; i++) for (int j = 0; j < countArray[i]; j++) stream[sortedArrayIndex++] = i;
         return stream;
     }
     // Переводит словарь число: количество в массив
@@ -43,6 +43,14 @@ static class TopGrade
     private static IEnumerable<int> Sort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
     {
         var stream = inputStream as int[] ?? inputStream.ToArray();
+        if (sortFactor >= maxValue)
+        {
+            IEnumerable<int> sortedArray = CountingSort(stream, sortFactor, maxValue);
+            var enumerable = sortedArray as int[] ?? sortedArray.ToArray();
+            for (int i = 0; i < enumerable.Length; i++) yield return enumerable[i];
+            yield break;
+        }
+        Console.WriteLine(1121212);
         short selectN = (short)stream[0];
         int arrayLen = 0;
         Dictionary<short, uint> counts = new Dictionary<short, uint>();
@@ -53,6 +61,14 @@ static class TopGrade
                 if (counts.TryGetValue((short) stream[i], out _)) counts[(short) stream[i]]++;
                 else counts.Add((short) stream[i], 1);
                 arrayLen++;
+                if (i == stream.Length - 1)
+                {
+                    int[] sortedPartStream = DictToArray(counts, arrayLen, (short) (selectN-sortFactor), selectN);
+                    for (int k = 0; k < sortedPartStream.Length; k++)
+                    {
+                        yield return sortedPartStream[k];
+                    }
+                }
             }
             else
             {
@@ -68,24 +84,15 @@ static class TopGrade
                 else counts.Add((short) stream[i], 1);
                 arrayLen++;
             }
-
-            if (stream.Last() == stream[i])
-            {
-                yield return stream[i];
-                yield break;
-            }
         }
     }
 
-    private static void Main(string[] args)
+    static void Main(string[] args)
     {
-        int[] array = {5, 2, 1, 1, 4, 5, 3, 9, 6, 10, 8, 7, 110, 106,
-            108, 120};
-        var unWorkSort = Sort(array, 4, 120);
-        foreach(int test in unWorkSort)
+        int[] arr = {13, 8, 3, 4, 5, 2, 1, 0};
+        foreach (var VARIABLE in Sort(arr, 2010, 13))
         {
-            Console.WriteLine(test);
-            Console.ReadKey();
+            Console.WriteLine(VARIABLE);
         }
     }
 }
