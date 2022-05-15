@@ -6,7 +6,7 @@ namespace Task4;
 static class TopGrade
 {   
     // Сортировка подсчетом
-    private static IEnumerable<int> Sort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
+    private static IEnumerable<int> CountingSort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
     {
         var stream = inputStream as int[] ?? inputStream.ToArray();
         int[] countArray = new int[maxValue + 1];
@@ -15,42 +15,71 @@ static class TopGrade
         for (int i = 0; i < countArray.Length-1; i++) for (int j = 0; j < countArray[i]; j++) stream[sortedArrayIndex++] = i;
         return stream;
     }
-    
-    // Это одна из неудачных попыток реализовать метод
-    private static IEnumerable<int> UnWorkSort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
+    // Переводит словарь число: количество в массив
+    private static IEnumerable<int> DictToArray(Dictionary<short, uint> counts, int arrayLen, short minValue, short maxValue)
+    {
+        int[] array = new int[arrayLen];
+        short arrayIndex = 0;
+        for (short i = minValue; i <= maxValue; i++)
+        {
+            counts.TryGetValue(i, out uint value);
+            if (value == 1)
+            {
+                array[arrayIndex] = i;
+                Console.WriteLine($"{arrayIndex} : {i} : {value}");
+                arrayIndex++;
+            }
+            if (value > 1)
+            {
+                for (short j = 0; j < value; j++)
+                {
+                    array[arrayIndex] = i;
+                    Console.WriteLine($"{arrayIndex} : {i} : {value}");
+                    arrayIndex++;
+                }
+            }
+        }
+        return array;
+    }
+
+    private static IEnumerable<IEnumerable<int>> Sort(IEnumerable<int> inputStream, int sortFactor, int maxValue)
     {
         var stream = inputStream as int[] ?? inputStream.ToArray();
-        int selectN = stream[0];
+        short selectN = (short)stream[0];
         int selectNIndex = 0;
-        int[] countArray = new int[maxValue + 1];
+        int arrayLen = 0;
+        Dictionary<short, uint> counts = new Dictionary<short, uint>();
         for (int i = 0; i < stream.Length; i++)
         {
-            if (selectN > stream[i])
+            if (selectN >= stream[i])
             {
-                Console.WriteLine($"{selectN} {stream[i]}");
+                if (counts.TryGetValue((short) stream[i], out _)) counts[(short) stream[i]]++;
+                else counts.Add((short) stream[i], 1);
+                arrayLen++;
             }
             else
             {
-                int[] windowNums = new int[i - selectNIndex + 1];
-                Console.ReadKey();
-                selectN = stream[i];
+                yield return DictToArray(counts, arrayLen, (short) (selectN-sortFactor), selectN);
+                counts = new Dictionary<short, uint>();
+                arrayLen = 0;
+                selectN = (short)stream[i];
                 selectNIndex = i;
+                if (counts.TryGetValue((short) stream[i], out _)) counts[(short) stream[i]]++;
+                arrayLen++;
             }
-            Console.WriteLine($"SelectNum: {selectN} Index: {selectNIndex} | Num: {stream[i]} Index: {i}");
+            Console.WriteLine($"SelectNum: {selectN} Num: {stream[i]} | Index: {selectNIndex}  Index: {i} | {i - selectNIndex + 1}");
         }
-
-        int sortedArrayIndex = 0;
-        for (int i = 0; i < countArray.Length-1; i++) for (int j = 0; j < countArray[i]; j++) stream[sortedArrayIndex++] = i;
-        return stream;
     }
 
     private static void Main(string[] args)
     {
-        int[] array = new[]
+        int[] array = {5, 2, 1, 1, 4, 5, 3, 9, 6, 10, 8, 7, 110, 106,
+            108, 120};
+        var unWorkSort = Sort(array, 4, 120);
+        foreach(IEnumerable<int> test in unWorkSort)
         {
-            16, 10, 12, 11, 15, 20, 19, 18, 17, 110, 106,
-            105, 125
-        };
-        Sort(array, 4, 2000);
+            Console.WriteLine(test);
+            Console.ReadKey();
+        }
     }
 }
