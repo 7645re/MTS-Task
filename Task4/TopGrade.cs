@@ -50,7 +50,6 @@ static class TopGrade
             for (int i = 0; i < enumerable.Length; i++) yield return enumerable[i];
             yield break;
         }
-        Console.WriteLine(1121212);
         short selectN = (short)stream[0];
         int arrayLen = 0;
         Dictionary<short, uint> counts = new Dictionary<short, uint>();
@@ -89,10 +88,5 @@ static class TopGrade
 
     static void Main(string[] args)
     {
-        int[] arr = {13, 8, 3, 4, 5, 2, 1, 0};
-        foreach (var VARIABLE in Sort(arr, 2010, 13))
-        {
-            Console.WriteLine(VARIABLE);
-        }
     }
 }
