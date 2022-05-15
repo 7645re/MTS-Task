@@ -64,10 +64,15 @@ static class TopGrade
                 arrayLen = 0;
                 selectN = (short)stream[i];
                 selectNIndex = i;
+                Console.WriteLine(1);
                 if (counts.TryGetValue((short) stream[i], out _)) counts[(short) stream[i]]++;
+                else counts.Add((short) stream[i], 1);
                 arrayLen++;
+                Console.WriteLine(1);
             }
-            Console.WriteLine($"SelectNum: {selectN} Num: {stream[i]} | Index: {selectNIndex}  Index: {i} | {i - selectNIndex + 1}");
+
+            if (stream.Last() == stream[i]) yield return new[] { stream[i]};
+            Console.WriteLine($"SelectNum: {selectN} Num: {stream[i]} | Index: {selectNIndex}  Index: {i} | {i - selectNIndex + 1} | {stream.Length}");
         }
     }
 
@@ -79,7 +84,7 @@ static class TopGrade
         foreach(IEnumerable<int> test in unWorkSort)
         {
             Console.WriteLine(test);
-            Console.ReadKey();
+            Console.WriteLine(1);
         }
     }
 }
