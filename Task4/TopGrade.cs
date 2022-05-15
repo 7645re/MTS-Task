@@ -51,6 +51,6 @@ static class TopGrade
             16, 10, 12, 11, 15, 20, 19, 18, 17, 110, 106,
             105, 125
         };
-        Sort(array, 2000);
+        Sort(array, 4, 2000);
     }
 }
